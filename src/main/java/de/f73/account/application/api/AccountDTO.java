@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+@Setter
 public class AccountDTO {
 
     private long accountNumber;
@@ -13,9 +14,6 @@ public class AccountDTO {
     public AccountDTO(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-
-
     }
-
 
 }

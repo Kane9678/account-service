@@ -14,6 +14,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @ExtendWith(SpringExtension.class)
 @WebMvcTest
 public class AccountControllerTest {
@@ -24,25 +27,22 @@ public class AccountControllerTest {
     ObjectMapper objectMapper = new ObjectMapper();
 
     AccountDTO validAccountDTO;
+    String validAccountDTOJson;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         this.validAccountDTO = new AccountDTO("Alex", "Mustermann");
+        this.validAccountDTOJson = this.objectMapper.writeValueAsString(this.validAccountDTO);
     }
 
     @Test
     void createAccount_AccountDTO_Returns_AccountDTO() throws Exception {
-        //given
-        long accountNumber = 12345;
-        String validAccountDTOJson = this.objectMapper.writeValueAsString(this.validAccountDTO);
-
         //when
-        this.mvc.perform(MockMvcRequestBuilders.post("/account")
+        this.mvc.perform(post("/account")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(validAccountDTOJson))
+                        .content(this.validAccountDTOJson))
                 // Then
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json(validAccountDTOJson))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.accountNumber").value(accountNumber));
+                .andExpect(status().isCreated())
+                .andExpect(content().json(this.validAccountDTOJson));
     }
 }

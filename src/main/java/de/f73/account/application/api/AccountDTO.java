@@ -1,19 +1,15 @@
 package de.f73.account.application.api;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import lombok.*;
 
 @Getter
-@Setter
+@AllArgsConstructor(onConstructor = @__(@JsonCreator))
+@RequiredArgsConstructor
 public class AccountDTO {
 
     private long accountNumber;
-    private String firstName;
-    private String lastName;
-
-    public AccountDTO(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
+    private final String firstName;
+    private final String lastName;
 
 }
